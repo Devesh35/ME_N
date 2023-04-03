@@ -1,0 +1,26 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+
+# using yarn.lock instead
+package-lock.json
+
+# dotenv environment variables files
+.env*
+!.env.example
+
+# log
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Optional npm cache directory
+.npm
+
+# build
+**/*.zip
+/dist
+/build
