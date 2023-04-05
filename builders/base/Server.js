@@ -46,7 +46,8 @@ class ServerBuilder {
   }
 
   buildAndListen (PORT) {
-    return this.buildServer().listen(PORT, () => console.log(`Server is running on port ${PORT}.`))
+    this.buildServer().listen(PORT, () => console.log(`Server is running on port ${PORT}.`))
+    return this.server
   }
 
   defaultServer (PORT) {
