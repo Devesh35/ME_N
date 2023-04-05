@@ -14,9 +14,10 @@
     "test": "echo \"Initial Phase. No Tests Defined!\" && exit 0"
   },
   "keywords": [],
-  "author": "",
+  "author": "Dev",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2"
   },

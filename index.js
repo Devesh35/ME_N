@@ -1,10 +1,10 @@
 import dotenv from "dotenv";
-import express from "express";
+import ServerBuilder from "./builders/base/Server.js";
 
 dotenv.config();
 
 const PORT = process.env.PORT
 
-const server = express()
+new ServerBuilder().defaultServer(PORT)
 
-server.listen(PORT, () => console.log(`Server running on port: ${PORT}`))
+process.on("unhandledRejection", (err, promise) => console.log(`Error-ur: ${err.message}`));
