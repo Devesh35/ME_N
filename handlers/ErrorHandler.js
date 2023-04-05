@@ -21,3 +21,13 @@ const errorHandler = (err, req, res, next) => {
 };
 
 export default errorHandler;
+
+export class ErrorResponse extends Error {
+  constructor(message = '', statusCode = 400, data = {}, serverOnlyData = {}) {
+    super(message)
+    this.data = data
+    this.statusCode = statusCode
+    this.serverOnlyData = serverOnlyData
+    Error.captureStackTrace(this, this.constructor)
+  }
+}
