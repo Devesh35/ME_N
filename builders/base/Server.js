@@ -3,7 +3,6 @@ import cors from 'cors'
 
 import errorHandler from '../../handlers/ErrorHandler.js';
 import { response } from '../../handlers/ResponseHandler.js';
-import logger, { logRequest } from '../../handlers/LogHandler.js';
 
 class ServerBuilder {
   constructor(server) {
@@ -25,14 +24,15 @@ class ServerBuilder {
 
   handleErrors () {
     return this.usePlugin(errorHandler)
-      .usePlugin((req, res, next) => response(res, 404, "Unable to find the requested resource", { success: false }))
+      .usePlugin(ExpressPlugins.resourceNotFound)
   }
 
   initialize () {
     return this.usePlugin(cors())
       .usePlugin(express.json({ limit: "50mb" }))
       .usePlugin(express.urlencoded({ limit: "50mb", extended: true }))
-      .usePlugin(logger(logRequest))
+      .usePlugin(ExpressPlugins.setResponseHeaders)
+      .usePlugin(ExpressPlugins.logRequest)
       .addRoute('get', '/health', (req, res) => response(res, 200, "OK"))
   }
 
@@ -56,3 +56,27 @@ class ServerBuilder {
 }
 
 export default ServerBuilder;
+
+class ExpressPlugins {
+  static setResponseHeaders (_, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    next();
+  }
+
+  static logRequest (req, _) {
+    return {
+      path: req.path,
+      body: req.body,
+      query: req.query,
+      params: req.params,
+    }
+  }
+
+  static resourceNotFound (_, res) {
+    response(res, 404, "Unable to find the requested resource", { success: false })
+  }
+}

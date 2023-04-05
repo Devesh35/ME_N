@@ -8,11 +8,4 @@ const logger = func => (req, res, next) => {
   next()
 }
 
-export const logRequest = req => ({
-  path: req.path,
-  body: req.body,
-  query: req.query,
-  params: req.params,
-})
-
 export default logger
